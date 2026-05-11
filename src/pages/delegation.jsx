@@ -27,7 +27,7 @@ import { insertDelegationDoneAndUpdate } from "../redux/api/delegationApi";
 import { sendUrgentTaskNotification, sendTaskExtensionNotification, isWhatsAppConnected } from "../services/whatsappService";
 import { useMagicToast } from "../context/MagicToastContext";
 import RenderDescription, { MediaViewer } from "../components/RenderDescription";
-import logo from "../assets/Ace_Logoo.jpg";
+import logo from "../assets/IronTailor.jpeg";
 
 // Configuration object - Move all configurations here
 const CONFIG = {
@@ -312,21 +312,10 @@ function DelegationDataPage() {
             matchesDateFilter = plannedDate < today;
             break;
           case "today":
-            if (task.status === "extend") {
-              // Extended tasks show in Today until the date arrives (stays in Today on that date too)
-              matchesDateFilter = plannedDate >= today;
-            } else {
-              // Non-extended tasks show in Today only on the exact date
-              matchesDateFilter = plannedDate.getTime() === today.getTime();
-            }
+            matchesDateFilter = plannedDate.getTime() === today.getTime();
             break;
           case "upcoming":
-            if (task.status === "extend") {
-              // Extended tasks are already counted in Today, so exclude from Upcoming
-              matchesDateFilter = false;
-            } else {
-              matchesDateFilter = plannedDate >= tomorrow;
-            }
+            matchesDateFilter = plannedDate >= tomorrow;
             break;
           default:
             matchesDateFilter = true;
@@ -336,9 +325,7 @@ function DelegationDataPage() {
       return matchesSearch && matchesDateFilter;
     }).map(task => {
       let timeStatus = "Not Submitted";
-      const taskDateStr = (task.status === "extend" && task.next_extend_date)
-        ? task.next_extend_date
-        : (task.planned_date || task.task_start_date);
+      const taskDateStr = task.planned_date || task.task_start_date;
 
       if (taskDateStr) {
         const pDate = new Date(taskDateStr);
@@ -346,10 +333,7 @@ function DelegationDataPage() {
 
         if (pDate < today) {
           timeStatus = "Overdue";
-        } else if (pDate.getTime() === today.getTime() || (task.status === "extend" && pDate >= today)) {
-          // Keep extended tasks in "Today" if they are due today or in the future?
-          // Wait, the user said "extended but need to show that aal before upcoming task in the group of todays".
-          // This implies extended tasks should be grouped with Today.
+        } else if (pDate.getTime() === today.getTime()) {
           timeStatus = "Today";
         } else {
           timeStatus = "Upcoming";
@@ -1097,7 +1081,7 @@ function DelegationDataPage() {
           <div class="watermark-overlay"></div>
           <div class="header">
             <div class="brand-block">
-              <!-- <img src="${logo}" class="brand-logo-img" /> -->
+              <img src="${logo}" class="brand-logo-img" />
             </div>
             <div class="report-title-container">
               <h1 class="report-main-title">Overdue Delegation Report</h1>

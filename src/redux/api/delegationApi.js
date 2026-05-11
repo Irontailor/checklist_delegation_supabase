@@ -101,9 +101,11 @@ export const insertDelegationDoneAndUpdate = createAsyncThunk(
             delegationUpdate.admin_done = false;
           } else if (taskData.status === 'extend') {
             if (taskData.next_extend_date) {
-              delegationUpdate.planned_date = new Date(taskData.next_extend_date).toISOString();
+              const nextDate = new Date(taskData.next_extend_date);
+              delegationUpdate.planned_date = nextDate.toISOString();
               delegationUpdate.task_start_date = delegationUpdate.planned_date;
-              delegationUpdate.status = 'extend';
+              // Set to pending so it follows normal date-based filtering rules
+              delegationUpdate.status = 'pending';
             }
           }
 

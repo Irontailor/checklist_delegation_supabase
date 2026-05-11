@@ -77,6 +77,8 @@ export default function QuickTask() {
   const [searchTerm, setSearchTerm] = useState('');
   const [freqFilter, setFreqFilter] = useState('');
   const [dateFilter, setDateFilter] = useState('all');
+  const [deptFilter, setDeptFilter] = useState('');
+  const [doerFilter, setDoerFilter] = useState('');
 
   const requestSort = (key) => {
     let direction = 'asc';
@@ -136,22 +138,31 @@ export default function QuickTask() {
     fetchDropdownData();
   }, [dispatch]);
 
+  // Update doers list when department filter changes
+  useEffect(() => {
+    const updateDoers = async () => {
+      const doers = await fetchUniqueDoerNameDataApi(deptFilter);
+      setDoersList(doers);
+    };
+    updateDoers();
+  }, [deptFilter]);
+
   // Re-fetch when activeTab or filters change (with debounced search)
   useEffect(() => {
     const handler = setTimeout(() => {
       if (activeTab === 'checklist') {
         dispatch(resetChecklistPagination());
-        dispatch(uniqueChecklistTaskData({ page: 0, pageSize: 50, dateFilter, nameFilter: searchTerm }));
+        dispatch(uniqueChecklistTaskData({ page: 0, pageSize: 50, dateFilter, nameFilter: searchTerm, deptFilter, doerFilter }));
       } else if (activeTab === 'delegation') {
         dispatch(resetDelegationPagination());
-        dispatch(uniqueDelegationTaskData({ page: 0, pageSize: 50, dateFilter, nameFilter: searchTerm }));
+        dispatch(uniqueDelegationTaskData({ page: 0, pageSize: 50, dateFilter, nameFilter: searchTerm, deptFilter, doerFilter }));
       } else if (activeTab === 'maintenance') {
-        dispatch(maintenanceData({ page: 1, frequency: freqFilter, searchTerm: searchTerm }));
+        dispatch(maintenanceData({ page: 1, frequency: freqFilter, searchTerm: searchTerm, deptFilter, doerFilter }));
       }
     }, 500);
 
     return () => clearTimeout(handler);
-  }, [dispatch, activeTab, dateFilter, freqFilter, searchTerm]);
+  }, [dispatch, activeTab, dateFilter, freqFilter, searchTerm, deptFilter, doerFilter]);
 
 
   // Add this new function
@@ -166,21 +177,27 @@ export default function QuickTask() {
         dispatch(uniqueChecklistTaskData({
           page: checklistPage,
           pageSize: 50,
-          append: true
+          append: true,
+          deptFilter,
+          doerFilter
         }));
       } else if (activeTab === 'delegation' && delegationHasMore) {
         dispatch(uniqueDelegationTaskData({
           page: delegationPage,
           pageSize: 50,
-          append: true
+          append: true,
+          deptFilter,
+          doerFilter
         }));
       } else if (activeTab === 'maintenance' && maintenanceHasMore) {
         dispatch(maintenanceData({
-          page: maintenancePage + 1
+          page: maintenancePage + 1,
+          deptFilter,
+          doerFilter
         }));
       }
     }
-  }, [loading, maintenanceLoading, activeTab, checklistHasMore, delegationHasMore, maintenanceHasMore, checklistPage, delegationPage, maintenancePage, dispatch]);
+  }, [loading, maintenanceLoading, activeTab, checklistHasMore, delegationHasMore, maintenanceHasMore, checklistPage, delegationPage, maintenancePage, dispatch, deptFilter, doerFilter]);
 
   // Options for Maintenance dropdowns
   const machineOptions = useMemo(() =>
@@ -402,16 +419,17 @@ export default function QuickTask() {
       setEditingTaskId(null);
       setEditFormData({});
       setRecordedAudio(null);
+      setIsEditModalOpen(false);
 
       showToast("Task updated successfully!", "success");
 
       // Refresh the data
       if (activeTab === 'checklist') {
-        dispatch(uniqueChecklistTaskData({ page: 0, pageSize: 50, dateFilter, nameFilter: searchTerm }));
+        dispatch(uniqueChecklistTaskData({ page: 0, pageSize: 50, dateFilter, nameFilter: searchTerm, deptFilter, doerFilter }));
       } else if (activeTab === 'maintenance') {
-        dispatch(maintenanceData({ page: 1, frequency: freqFilter, searchTerm: searchTerm }));
+        dispatch(maintenanceData({ page: 1, frequency: freqFilter, searchTerm: searchTerm, deptFilter, doerFilter }));
       } else if (activeTab === 'delegation') {
-        dispatch(uniqueDelegationTaskData({ page: 0, pageSize: 50, dateFilter, nameFilter: searchTerm }));
+        dispatch(uniqueDelegationTaskData({ page: 0, pageSize: 50, dateFilter, nameFilter: searchTerm, deptFilter, doerFilter }));
       }
 
     } catch (error) {
@@ -725,16 +743,43 @@ export default function QuickTask() {
             </div>
           </div>
 
-          <div className="flex items-center mt-2">
-            <div className="relative w-full md:w-96">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-3 mt-2">
+            <div className="relative w-full md:w-80">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
-                placeholder="Search by task or name..."
+                placeholder="Search tasks..."
                 className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 outline-none transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+            </div>
+
+            <div className="flex items-center gap-3 w-full md:w-auto">
+              <select
+                className="flex-1 md:w-48 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                value={deptFilter}
+                onChange={(e) => {
+                  setDeptFilter(e.target.value);
+                  setDoerFilter(''); // Reset name filter when department changes
+                }}
+              >
+                <option value="">All Departments</option>
+                {departments.map(dept => (
+                  <option key={dept} value={dept}>{dept}</option>
+                ))}
+              </select>
+
+              <select
+                className="flex-1 md:w-48 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                value={doerFilter}
+                onChange={(e) => setDoerFilter(e.target.value)}
+              >
+                <option value="">All Names</option>
+                {doersList.map(doer => (
+                  <option key={doer.user_name} value={doer.user_name}>{doer.user_name}</option>
+                ))}
+              </select>
             </div>
           </div>
         </div>

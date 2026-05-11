@@ -318,10 +318,6 @@ export default function RepairView({ tasks = [] }) {
                             <tr>
                                 <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">ID</th>
                                 <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Machine</th>
-                                <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Given By</th>
-                                <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Assign To</th>
-                                <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider min-w-[200px]">Issue</th>
-                                <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Date</th>
                                 <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Status</th>
                             </tr>
                         </thead>
@@ -335,19 +331,6 @@ export default function RepairView({ tasks = [] }) {
                                     >
                                         <td className="px-4 py-3 text-sm font-medium text-gray-900 whitespace-nowrap">#{task.id}</td>
                                         <td className="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">{task.machine_name}</td>
-                                        <td className="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">{task.filled_by}</td>
-                                        <td className="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">{task.assigned_person || '-'}</td>
-                                        <td className="px-4 py-3 text-sm text-gray-600">
-                                            <RenderDescription
-                                                text={task.issue_description}
-                                                audioUrl={task.audio_url}
-                                                instructionUrl={task.instruction_attachment_url}
-                                                instructionType={task.instruction_attachment_type}
-                                            />
-                                        </td>
-                                        <td className="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">
-                                            {task.created_at ? new Date(task.created_at).toLocaleDateString() : '-'}
-                                        </td>
                                         <td className="px-4 py-3 text-sm">
                                             <span className={`inline-flex px-2 py-0.5 rounded text-xs font-bold border uppercase ${getStatusColor(task.status, task.admin_done)}`}>
                                                 {task.status ? task.status.split(' ')[0] : "Pending"}
@@ -357,7 +340,7 @@ export default function RepairView({ tasks = [] }) {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="8" className="px-4 py-8 text-center text-gray-500 text-sm">
+                                    <td colSpan="3" className="px-4 py-8 text-center text-gray-500 text-sm">
                                         No repair tasks found.
                                     </td>
                                 </tr>

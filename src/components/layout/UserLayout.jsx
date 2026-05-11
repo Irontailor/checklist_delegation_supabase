@@ -1,5 +1,5 @@
 "use client"
-import aceLogo from "../assets/Ace_Logoo.jpg";
+import ironTailorLogo from "../../assets/IronTailor.jpeg";
 
 import { useState, useEffect } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
@@ -102,7 +102,7 @@ const UserLayout = ({ children }) => {
             to={isAdmin ? "/admin/dashboard" : "/user/dashboard"}
             className="flex items-center gap-2 font-semibold text-green-700 dark:text-green-300"
           >
-            {/* <img src={aceLogo} alt="TaskDesk Logo" className="h-8 w-8 rounded-full object-cover border border-green-200" /> */}
+            <img src={ironTailorLogo} alt="IronTailor Logo" className="h-8 w-8 rounded-full object-cover border border-green-200" />
             <span>TaskDesk</span>
           </Link>
         </div>
@@ -180,7 +180,7 @@ const UserLayout = ({ children }) => {
             className="flex items-center gap-2 font-semibold text-green-700 dark:text-green-300"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            {/* <img src={aceLogo} alt="TaskDesk Logo" className="h-8 w-8 rounded-full object-cover border border-green-200" /> */}
+            <img src={ironTailorLogo} alt="IronTailor Logo" className="h-8 w-8 rounded-full object-cover border border-green-200" />
             <span>TaskDesk</span>
           </Link>
         </div>

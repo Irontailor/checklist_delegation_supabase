@@ -1,4 +1,5 @@
 "use client"
+import ironTailorLogo from "../assets/IronTailor.jpeg";
 
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -98,13 +99,13 @@ const LoginPage = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 p-4">
       <div className="w-full max-w-md shadow-lg border border-blue-200 rounded-lg bg-white">
-        <div className="space-y-1 p-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-t-lg">
-          {/* <img
-            src="/logo.png"
-            alt="Company Logo"
-            className="h-auto w-100 mr-3"
-          /> */}
-          <h2 className="text-2xl font-bold text-blue-700 p-2 items-center justify-center">TaskDesk</h2>
+        <div className="space-y-1 p-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-t-lg flex items-center justify-center">
+          <img
+            src={ironTailorLogo}
+            alt="IronTailor Logo"
+            className="h-10 w-10 rounded-full object-cover border border-blue-200 mr-3"
+          />
+          <h2 className="text-2xl font-bold text-blue-700">TaskDesk</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="p-4 space-y-4">

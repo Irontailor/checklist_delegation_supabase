@@ -342,7 +342,7 @@ export default function AdminLayout({ children, darkMode, toggleDarkMode, showLa
             to="/dashboard/admin"
             className="flex items-center gap-2 font-semibold text-blue-700"
           >
-            <img src={bhatiyaLogo} alt="TaskDesk Logo" className="h-8 w-8 rounded-full object-cover border border-blue-200" />
+            {/* <img src={bhatiyaLogo} alt="TaskDesk Logo" className="h-8 w-8 rounded-full object-cover border border-blue-200" /> */}
             <span>TaskDesk</span>
           </Link>
         </div>
@@ -533,7 +533,7 @@ export default function AdminLayout({ children, darkMode, toggleDarkMode, showLa
                 className="flex items-center gap-2 font-semibold text-blue-700"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <img src={bhatiyaLogo} alt="TaskDesk Logo" className="h-8 w-8 rounded-full object-cover border border-blue-200" />
+                {/* <img src={bhatiyaLogo} alt="TaskDesk Logo" className="h-8 w-8 rounded-full object-cover border border-blue-200" /> */}
                 <span>TaskDesk</span>
               </Link>
             </div>

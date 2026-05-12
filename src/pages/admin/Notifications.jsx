@@ -132,7 +132,8 @@ export default function Notifications() {
                 <div
                   key={noti.id}
                   onMouseEnter={() => handleMarkAsRead(noti.id, noti.isRead)}
-                  className={`group relative flex gap-4 md:gap-6 p-2 transition-all duration-300`}
+                  onClick={() => handleMarkAsRead(noti.id, noti.isRead)}
+                  className={`group relative flex gap-4 md:gap-6 p-2 transition-all duration-300 cursor-pointer`}
                 >
                   {/* Left: Avatar & Connector */}
                   <div className="flex flex-col items-center">

@@ -25,7 +25,7 @@ export const fetchNotificationsApi = async (role, userId) => {
       const { data: readData } = await supabase
         .from("user_notifications")
         .select("notification_id, is_read")
-        .eq("user_id", userId);
+        .eq("user_id", parseInt(userId)); // Fix: Ensure integer comparison
       
       if (readData) {
         readStatuses = readData.reduce((acc, row) => {

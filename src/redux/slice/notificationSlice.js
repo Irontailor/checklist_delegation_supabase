@@ -71,13 +71,13 @@ const notificationSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(createNotification.fulfilled, (state, action) => {
-        state.list.unshift(action.payload);
+        state.list.unshift({ ...action.payload, isRead: true });
       })
       .addCase(removeNotification.fulfilled, (state, action) => {
         state.list = state.list.filter((n) => n.id !== action.payload);
       })
       .addCase(markAsRead.fulfilled, (state, action) => {
-        const index = state.list.findIndex(n => n.id === action.payload);
+        const index = state.list.findIndex(n => String(n.id) === String(action.payload));
         if (index !== -1) {
           state.list[index].isRead = true;
         }

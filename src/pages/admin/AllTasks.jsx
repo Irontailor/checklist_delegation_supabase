@@ -1121,14 +1121,16 @@ const AllTasks = () => {
                         )}
                       </div>
 
-                      <button
-                        onClick={handleSendUrgentWhatsApp}
-                        disabled={selectedItems.size === 0 || isSubmitting}
-                        className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 disabled:opacity-40 shadow-md shadow-green-600/10 transition-all"
-                      >
-                        <BellRing className="h-4 w-4" />
-                        <span className="hidden md:inline">Urgent</span>
-                      </button>
+                      {(userRole.toLowerCase() === "admin" || userRole.toLowerCase() === "hod") && (
+                        <button
+                          onClick={handleSendUrgentWhatsApp}
+                          disabled={selectedItems.size === 0 || isSubmitting}
+                          className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 disabled:opacity-40 shadow-md shadow-green-600/10 transition-all"
+                        >
+                          <BellRing className="h-4 w-4" />
+                          <span className="hidden md:inline">Urgent</span>
+                        </button>
+                      )}
 
                       {activeTab !== "repair" && (
                         <button

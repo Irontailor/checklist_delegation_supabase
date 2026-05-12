@@ -1351,16 +1351,18 @@ function DelegationDataPage() {
                       <span className="sm:hidden">Print</span>
                     </button>
 
-                    <button
-                      onClick={handleSendUrgentWhatsApp}
-                      disabled={selectedItems.size === 0 || isSubmitting}
-                      className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition-all h-10"
-                      title="Send Urgent WhatsApp"
-                    >
-                      <BellRing className="h-4 w-4" />
-                      <span className="hidden sm:inline">Urgent WhatsApp</span>
-                      <span className="sm:hidden">Urgent</span>
-                    </button>
+                    {(userRole.toLowerCase() === "admin" || userRole.toLowerCase() === "hod") && (
+                      <button
+                        onClick={handleSendUrgentWhatsApp}
+                        disabled={selectedItems.size === 0 || isSubmitting}
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition-all h-10"
+                        title="Send Urgent WhatsApp"
+                      >
+                        <BellRing className="h-4 w-4" />
+                        <span className="hidden sm:inline">Urgent WhatsApp</span>
+                        <span className="sm:hidden">Urgent</span>
+                      </button>
+                    )}
 
                     <button
                       onClick={handleSubmit}

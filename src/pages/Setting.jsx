@@ -569,7 +569,7 @@ const Setting = () => {
   const handleAddUser = async (e) => {
     e.preventDefault();
 
-    if (!userForm.phone || userForm.phone.trim() === '') {
+    if (!userForm.phone || String(userForm.phone).trim() === '') {
       showToast("Phone number is required", "error");
       return;
     }
@@ -619,7 +619,7 @@ const Setting = () => {
   const handleUpdateUser = async (e) => {
     e.preventDefault();
 
-    if (!userForm.phone || userForm.phone.trim() === '') {
+    if (!userForm.phone || String(userForm.phone).trim() === '') {
       showToast("Phone number is required", "error");
       return;
     }
@@ -738,7 +738,7 @@ const Setting = () => {
       try {
         const machineName = deptForm.givenBy;
         const machineArea = deptForm.machineArea;
-        const parts = inputParts.filter(p => p.name.trim() !== '');
+        const parts = inputParts.filter(p => String(p.name || '').trim() !== '');
 
         if (!machineName) {
           showToast("Machine Name is required", "error");

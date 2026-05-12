@@ -266,7 +266,8 @@ const Setting = () => {
         supabase.from('checklist').select('*').eq('name', leavePersonName)
           .gte('task_start_date', startISO).lte('task_start_date', endISO).is('submission_date', null),
         supabase.from('delegation').select('*').eq('name', leavePersonName)
-          .gte('task_start_date', startISO).lte('task_start_date', endISO).is('submission_date', null),
+          .gte('task_start_date', startISO).lte('task_start_date', endISO)
+          .or('submission_date.is.null,status.neq.done'),
         supabase.from('maintenance_tasks').select('*').eq('name', leavePersonName)
           .gte('task_start_date', startISO).lte('task_start_date', endISO).is('submission_date', null),
         supabase.from('repair_tasks').select('*').eq('assigned_person', leavePersonName)

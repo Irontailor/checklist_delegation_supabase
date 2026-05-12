@@ -25,6 +25,7 @@ export const insertDelegationDoneAndUpdate = createAsyncThunk(
             image_url: taskData.image || taskData.image_url, // Reverted to image_url for delegation_done table
             audio_url: taskData.audio_url || null,
             admin_done: false,
+            planned_date: taskData.planned_date || null
           };
 
           console.log('Inserting into delegation_done:', delegationDoneData);
@@ -199,6 +200,7 @@ export const fetchDelegation_DoneDataSortByDate = async () => {
       return {
         ...detail,
         ...doneItem,
+        planned_date: doneItem.planned_date || detail.planned_date, // Prioritize historical date
         done_id: doneItem.id,
         original_task_id: doneItem.task_id
       };
